@@ -1,0 +1,41 @@
+ .container h2 {
+    font-weight: bolder; /* Colocar fonte mais escura*/
+  }
+   
+ 
+  .containerInfo {
+    /* width: 70%; */
+    height: 150px; 
+    margin:auto;
+    display: flex;
+    justify-content: space-between; 
+  }
+  .containerInfo  p{
+    font-size: 1.5em;
+    margin-top: 0.8rem;
+  }
+
+  .info2 {
+    display: flex;
+    width: 20%;
+    justify-content: space-between;
+  }
+  
+  .info3 {
+    display:block;
+    width: 10%;
+  }
+
+  .textStyle {
+    padding: 1.5rem;
+  }
+
+  .head {
+    display: flex;
+  } 
+
+  .icon {
+    margin-left: 1rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
