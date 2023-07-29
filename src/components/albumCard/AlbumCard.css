@@ -2,13 +2,16 @@
     font-weight: bolder; /* Colocar fonte mais escura*/
   }
    
- 
+ /* .container {
+  overflow: scroll;
+ } */
   .containerInfo {
     /* width: 70%; */
     height: 150px; 
     margin:auto;
     display: flex;
     justify-content: space-between; 
+    
   }
   .containerInfo  p{
     font-size: 1.5em;
@@ -39,3 +42,17 @@
     font-size: 1.5rem;
     cursor: pointer;
   }
+.trash {
+  position: relative;
+  top: 45%;
+}
+
+.shadeContainer {
+  background-color: rgba(0, 0, 0, 0.202);
+}
+
+.gearSix {
+position: relative;
+left: 97%;
+font-size: 2rem;
+}
