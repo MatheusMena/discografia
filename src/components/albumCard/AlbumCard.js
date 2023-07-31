@@ -1,104 +1,180 @@
-import "./AlbumCard.css"
+import { useState, useEffect, useContext } from 'react';
 import { requestAlbumsTracks, deleteTrack, deleteAlbum } from '../../services/requests';
-import { useState, useEffect } from 'react';
 import { PencilSimple, Trash } from 'phosphor-react'
 import ModalTrack from "../modal/ModalTrack";
+import ModalAlbum from "../modal/ModalAlbum";
+import Context from "../../context/Context";
+import timeFormat from "../../utils/funcoes";
+import "./AlbumCard.css";
 
 export default function AlbumCard(props) {
-console.log("tracks",props.tracks)
-  // handle 
- //manipula modal
- const [isModalOpen, setIsModalOpen] = useState(false);
 
- const closeModal = () => {
-  setIsModalOpen(false);
-};
-  // tracks 
+  // acessa o context com os albums
+  const { albumsList, setAlbumsList } = useContext(Context);
+
+  // estados
   const [trackList, setTrackList] = useState([]);
   const [editAlbum, setEditAlbum] = useState(false);
-  const [colorEdit, setColorEdit] = useState('');
-  //  console.log("trackList",trackList)
+
+  //manipula modal Album
+  const [isModalAlbumOpen, setModalAlbumOpen] = useState(false);
+
+  //  manipula modal faixa
+  const [isModalTrackOpen, setModalTrackOpen] = useState(false);
 
 
+
+  // funcao de fechar modal faixa
+  const closeModalTrack = () => {
+    setModalTrackOpen(false);
+  };
+
+
+  // funcao de fechar modal album
+  const closeModalAlbum = () => {
+    setModalAlbumOpen(false);
+  };
+
+
+
+  // useEffect
   useEffect(() => {
-    // Req Albums
+
+    // requisicao GET com base no titulo do album
     async function getAlbumsTracks() {
       const req = await requestAlbumsTracks(props.albumTitle);
+      // atualiza a lista de faixas de acordo com o album
       setTrackList(req.data[0].tracks)
 
     }
     getAlbumsTracks();
   }, [props.albumTitle]);
 
-  return (
-    <div class="container">
 
-      <div className='head'>
-        <h2>Álbum: {props.albumTitle}, {props.year}</h2>
-        <PencilSimple className='icon' onClick={() => {
-          setColorEdit('shadeContainer')
-          setEditAlbum(!editAlbum)
-        }} />
-        {editAlbum ? <button onClick={() => setIsModalOpen(true)}>adicionar faixa de album</button> : null}
-        <ModalTrack isOpen={isModalOpen} closeModal={closeModal} id={props.id} track={trackList} />
-        {editAlbum ? <button onClick={() =>{
-          if(window.confirm('tem certeza que deseja excluir este album e todas suas faixas?')){
-            deleteAlbum(props.id)
-            
-          }
-        } }>remover album</button> : null}
+  return (
+    <div class="album-container">
+
+      <div className='album-container-header'>
+
+        <div className='album-header-flex'>
+          {/* titulo do album */}
+          <p>Álbum: {props.albumTitle}, {props.year}</p>
+
+          {/* funcao de editar */}
+          <PencilSimple className={`pencil ${editAlbum ? 'pencil-selected' : ''} icon`} onClick={() => {
+            setEditAlbum(!editAlbum)
+          }} />
+        </div>
+
+
+
+        {/* Se tiver um album , mostra adicionar faixa, Adicionar album e Remover album */}
+        {editAlbum ?
+            (
+              <div className="container-button">
+                {/* Adicionar faixa */}
+                <button
+                  className="album-button button-size "
+                  onClick={() => setModalTrackOpen(true)}>
+                  Adicionar faixa
+                </button>
+
+                {/* Adicionar album */}
+                <button
+                  className="album-button button-size "
+                  onClick={() => {
+                    setModalAlbumOpen(true)
+                  }}
+                >
+                  Adicionar novo álbum
+                </button>
+
+                {/* Remover album */}
+                <button
+                  className="album-button button-size "
+                  onClick={() => {
+                    const getAlbumTitle = albumsList.filter((i) => i.name !== props.albumTitle)
+
+                    if (window.confirm('tem certeza que deseja excluir este album e todas suas faixas?')) {
+                      // Remove o album
+                      deleteAlbum(props.id);
+                      // Atualiza a lista de albuns do context
+                      setAlbumsList(getAlbumTitle)
+                    }
+                  }}>Remover álbum
+                </button>
+              </div>
+            )
+            : null
+        }
+        {/* modais */}
+        <ModalTrack isOpen={isModalTrackOpen} closeModal={closeModalTrack} id={props.id} track={trackList} />
+        <ModalAlbum isOpen={isModalAlbumOpen} closeModal={closeModalAlbum} />
       </div>
 
 
+      {/* verifica se existem faixas no album, se tiver faz isto: */}
+      {trackList.length ?
+        (
+          trackList.map((item) =>
+            //  container que abriga tudo sobre a faixa do album
+            <div key={item.number} class={`album-track ${editAlbum ? 'container-shadow' : ''}`}>
 
-        {console.log("tracklist",trackList)}
-      {trackList.length ? (trackList.map((item) =>
-        <div key={item.number} class={`containerInfo ${editAlbum ? 'shadeContainer' : ''}`}>
+              {/* container que abriga o numero e a faixa */}
+              <div class="track-numberTitle">
+
+                {editAlbum ? 
+                // Funcao de excluir faixa
+                <Trash onClick={() => {
+
+                  // confirma exclusao da faixa
+                  if (window.confirm('esta faixa será excluida')) {
+                    async function delTrack() {
+                      // Obtem o id da faixa atual comparando com a lista de faixas
+                      const getTrackID = trackList.filter((i) => i.title === item.title)
+                      await deleteTrack(getTrackID[0].id);
+                      const removeTrackID = trackList.filter((i) => i.id !== getTrackID[0].id)
+                      // Atualiza as faixas
+                      setTrackList(removeTrackID)
+
+                    }
+                    delTrack();
+                  }
+
+                }} className='trash icon' /> : null
+                }
+                <div className='track-text'>
+
+                {/* Numero da faixa */}
+                  <p>N°</p>
+                  <p>{item.number}</p>
+                </div>
 
 
-          <div class="info2">
+                {/* Titulo da faixa */}
+                <div className='track-text'>
+                  <p>Faixa</p>
+                  <p>{item.title}</p>
+                </div>
 
-            {editAlbum ? <Trash onClick={() => {
-             const getTrackID= trackList.filter((i) => i.title == item.title)
-             console.log(getTrackID[0].id)
-             
-             if(window.confirm('esta faixa será excluida')){
-              async function delTrack() {
-                await deleteTrack(getTrackID[0].id);
-                const removeTrackID= trackList.filter((i) => i.id !== getTrackID[0].id)
-                
-                setTrackList(removeTrackID)
-          
-              }
-              delTrack();
-             }
+              </div>
 
-            }} className='trash icon' /> : null
-            }
-            <div className='textStyle'>
+              {/* Duracao da faixa */}
+              <div class="track-duration track-text">
 
-              <p>N°</p>
-              <p>{item.number}</p>
+                <p>Duracao</p>
+                <p>{timeFormat(item.duration)}</p>
+              </div>
             </div>
+          )
 
-
-
-            <div className='textStyle'>
-              <p>Faixa</p>
-              <p>{item.title}</p>
-            </div>
-
-
-          </div><div class="info3 textStyle">
-            <p>Duracao</p>
-            <p>{item.duration}</p>
-          </div></div>
-      )
-
-      ) : <div class="containerInfo">sem faixas, adicione uma </div>
+        ) :
+        // Se nao tiver faixa mostra isto:
+        <div class="album-track"><button className="add-track-button" onClick={() => setModalTrackOpen(true)}>Adicione uma faixa</button></div>
       }
 
     </div>
 
   )
+
 }
