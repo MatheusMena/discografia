@@ -9,7 +9,7 @@ link: https://discografia-psi.vercel.app/
 ### `npm install ` para instalar as depencias;
 ### `npm start ` para abrir no navegador
 
-### funcionamento
+### Funcionamento
 aqui explico como funciona e funcoes
 
 
