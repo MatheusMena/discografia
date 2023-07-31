@@ -1,77 +1,100 @@
 // Funcoes de requisicao de api
 
+
+// GET Albums
 export async function requestAlbumsTracks(albumName) {
-  const response = await fetch(`https://tiao.supliu.com.br/api/album?keyword=${albumName}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'matheusmena1@hotmail.com'
-    },
-  });
+  try {
+    const response = await fetch(`https://tiao.supliu.com.br/api/album?keyword=${albumName}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'matheusmena1@hotmail.com'
+      },
+    });
 
-  const result = await response.json();
-  return result;
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error(error.message);
+  }
 }
 
-export async function deleteAlbumTrack(id) {
-  const response = await fetch(`https://tiao.supliu.com.br/api/track/${id}`, {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'matheusmena1@hotmail.com'
-    },
-  });
-
-  const result = await response.json();
-  return result;
-}
-
+// POST Album
 export async function addNewAlbum(albumData) {
-  const response = await fetch('https://tiao.supliu.com.br/api/album', {
+  try {
+      await fetch('https://tiao.supliu.com.br/api/album', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'matheusmena1@hotmail.com'
     },
     body: JSON.stringify(albumData),
-  })
-  const result = await response.json();
-  console.log(result);
+  });
+
+  } catch (error) {
+    console.error(error.message);
+  }
+
 };
 
-export async function addNewTrack(trackData) {
-  const response = await fetch('https://tiao.supliu.com.br/api/track', {
-    method: 'POST',
+
+// DELETE Album
+export async function deleteAlbum(id) {
+  try {
+      await fetch(`https://tiao.supliu.com.br/api/album/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'matheusmena1@hotmail.com'
+    }
+  })
+  } catch (error) {
+    console.error(error.message);
+  }
+};
+
+// DELETE Track
+export async function deleteAlbumTrack(id) {
+  try {
+      await fetch(`https://tiao.supliu.com.br/api/track/${id}`, {
+    method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'matheusmena1@hotmail.com'
     },
-    body: JSON.stringify(trackData),
-  })
-  const result = await response.json();
-  console.log(result);
+  });
+  } catch (error) {
+    console.error(error.message);
+  }
+}
+
+// POST track
+export async function addNewTrack(trackData) {
+  try {
+     await fetch('https://tiao.supliu.com.br/api/track', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'matheusmena1@hotmail.com'
+      },
+      body: JSON.stringify(trackData),
+    });
+  } catch (error) {
+    console.error(error.message);
+  }
 };
 
+// Delete Track
 export async function deleteTrack(id) {
-  const response = await fetch(`https://tiao.supliu.com.br/api/track/${id}`, {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'matheusmena1@hotmail.com'
-    }
-  })
-  const result = await response.json();
-  console.log(result);
-};
-
-export async function deleteAlbum(id) {
-  const response = await fetch(`https://tiao.supliu.com.br/api/album/${id}`, {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'matheusmena1@hotmail.com'
-    }
-  })
-  const result = await response.json();
-  console.log(result);
+  try {
+     await fetch(`https://tiao.supliu.com.br/api/track/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'matheusmena1@hotmail.com'
+      }
+    })
+  } catch (error) {
+    console.error(error.message);
+  }
 };
