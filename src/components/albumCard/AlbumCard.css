@@ -1,58 +1,124 @@
- .container h2 {
-    font-weight: bolder; /* Colocar fonte mais escura*/
-  }
-   
- /* .container {
-  overflow: scroll;
- } */
-  .containerInfo {
-    /* width: 70%; */
-    height: 150px; 
-    margin:auto;
-    display: flex;
-    justify-content: space-between; 
-    
-  }
-  .containerInfo  p{
-    font-size: 1.5em;
-    margin-top: 0.8rem;
-  }
 
-  .info2 {
-    display: flex;
-    width: 20%;
-    justify-content: space-between;
-  }
-  
-  .info3 {
-    display:block;
-    width: 10%;
-  }
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;900&display=swap');
 
-  .textStyle {
-    padding: 1.5rem;
-  }
 
-  .head {
-    display: flex;
-  } 
+/* Album style */
 
-  .icon {
-    margin-left: 1rem;
-    font-size: 1.5rem;
-    cursor: pointer;
-  }
+.album-header-flex p {
+  font-size: 1.6rem;
+  font-family: 'Roboto';
+  font-weight: 900;
+}
+
+.album-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.album-container-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.album-header-flex {
+  display: flex;
+}
+
+.album-track {
+  display: flex;
+  justify-content: space-between;
+}
+
+.album-track p {
+  font-size: 1.5em;
+  margin-top: 0.8rem;
+}
+
+
+/* Track style */
+
+.track-numberTitle {
+  display: flex;
+}
+
+.track-text {
+  font-family: 'Roboto';
+  font-weight: 200;
+  font-size: medium;
+  padding: 1.5rem;
+}
+
+
+.icon {
+  /* icone de deletar faixa e editar faixa*/
+  margin-left: 1rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.pencil {
+  /* icone de editar album */
+  color: rgb(27, 26, 26);
+
+}
+
+.pencil-selected {
+  border-radius: 50px;
+  background: rgb(177, 169, 169);
+  color: rgb(241, 233, 233);
+  transition: all 0.3s ease-out;
+  transform: scale(1.25)
+}
+
 .trash {
+  /* icone de deletar faixa */
+  color: red;
   position: relative;
   top: 45%;
 }
 
-.shadeContainer {
+.trash:hover {
+  transition: all 0.3s ease-out;
+  transform: scale(1.25)
+}
+
+/* Sombra ao selecionar album para editar */
+.container-shadow {
   background-color: rgba(0, 0, 0, 0.202);
 }
 
-.gearSix {
-position: relative;
-left: 97%;
-font-size: 2rem;
+/* Estiliza botoes de Adicionar album, Adicionar faixa e Remover Album */
+.container-button {
+  display: flex;
+  align-items: center;
+}
+.container-button button {
+  flex: 1;
+}
+.album-button {
+  margin-left: 3%;
+  font-size: 0.9rem;
+  width: fit-content;
+  color: black;
+  cursor: pointer;
+  padding: 0.2rem;
+  border-radius: 50px;
+  border: none;
+  padding: 0.6rem;
+  background: none; 
+  box-shadow: none;
+}
+
+.album-button:hover {
+  background-color: rgb(8, 86, 138); 
+  transform: scale(1.08); 
+  color: beige;
+  transition: all 0.3s ease-out;
+}
+
+.add-track-button {
+  font-size: 1rem;
+  padding: 1.5rem;
+  color: black;
+  cursor: pointer;
 }

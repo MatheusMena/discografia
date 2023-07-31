@@ -1,32 +1,48 @@
+nav {
+  margin-top: 1.5rem;
+}
+
 .navbar {
   background-color: rgb(254, 254, 245);
   width: 80%;
-  ;
   display: flex;
   margin: auto;
   justify-content: space-between;
   padding: 2rem;
 }
 
+
+
 .logo {
   width: 15.5rem;
 }
 
 .title {
+  padding-top: 1rem;
   font-size: 3.8rem;
   font-family: 'Roboto';
   font-weight: 300;
-  /* Roboto Light ttf (300) WhatFontIs.com */
 }
 
-@media (max-width: 600px) {
+/* telas menores */
+
+@media (max-width: 660px) {
   .navbar {
-    background-color: rgb(254, 254, 245);
+    width: 95%;
+  }
+
+}
+
+@media (max-width: 790px) {
+  .navbar {
     align-items: center;
-    width: 80%;
     display: flex;
-    margin: auto;
     flex-direction: column;
-    padding: 2rem;
+  }
+}
+
+@media (max-width: 370px) {
+  .logo {
+    width: 12.5rem;
   }
 }
