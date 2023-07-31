@@ -1,97 +1,93 @@
 
+import { useState, useEffect, useContext } from 'react';
+import { requestAlbumsTracks } from '../../services/requests';
 import AlbumCard from '../../components/albumCard/AlbumCard';
 import Navbar from '../../components/navbar/Navbar';
-import "./style.css"
-import { useState, useEffect } from 'react';
-import { requestAlbumsTracks } from '../../services/requests';
+import Context from '../../context/Context';
 import ModalAlbum from '../../components/modal/ModalAlbum';
-
+import "./style.css"
 
 
 export default function HomePage() {
 
+  // Acessa o context com os albums
+  const { albumsList, setAlbumsList } = useContext(Context);
 
- //manipula modal
- const [isModalOpen, setIsModalOpen] = useState(false);
+  // Manipula modal Album
+  const [isModalAlbumOpen, setModalAlbumOpen] = useState(false);
 
-
- const closeModal = () => {
-   setIsModalOpen(false);
- };
 
   // input Buscar 
   const [input, setInput] = useState('');
-  //  console.log(input)
 
-
-  //  Albums
-  const [albumsList, setAlbumsList] = useState([]);
-  console.log("albumlist",albumsList)
 
   // useEffect hook
   useEffect(() => {
     async function reqAlbums() {
       const req = await requestAlbumsTracks('');
+      // Atualiza contexto com os albums
       setAlbumsList(req.data);
 
     }
     reqAlbums();
+  }, [input, setAlbumsList]);
 
 
-  }, [input]);
-
-
+  // Funcao de fechar modal album
+  const closeModalAlbum = () => {
+    setModalAlbumOpen(false);
+  };
 
 
   return (
     <div>
       <Navbar />
-   
-      {/*lista de pesquisa*/}
-      <div className='search-container'>
-         {/* add Album */}
-        <button
-        onClick={() => setIsModalOpen(true)}
-        >
-          adicionar novo album
-        </button>
-<ModalAlbum isOpen={isModalOpen} closeModal={closeModal}/>
-       
-     
+
+      {/*Conteudo da pagina*/}
+      <div className='container-home'>
 
         {/* Input search */}
         <label className='search-title' htmlFor="search">
           Digite uma palavra chave:
         </label>
-        <input
-          className='input-search input-size'
-          type="text"
-          id="search"
-          value={input}
-          onChange={({ target }) => {
-            setInput(target.value)
-          }}
-        />
+
+        <div className='search-container'>
+          <input
+            className='input-search input-size'
+            type="text"
+            id="search"
+            value={input}
+            onChange={({ target }) => {
+              setInput(target.value)
+            }}
+          />
 
 
-        {/* button search */}
-        <button
-          className='search-button input-size'
+          {/* button search */}
+          <button
+            className='search-button input-size'
+            onClick={() => {
+              async function reqAlbums() {
+                const req = await requestAlbumsTracks(input);
+                setAlbumsList(req.data);
+              }
+              reqAlbums();
+            }}>
+            Procurar
+          </button>
+        </div>
+       
+        <ModalAlbum isOpen={isModalAlbumOpen} closeModal={closeModalAlbum} /> 
+
+          {/* Album card */}
+        {albumsList.length ? (albumsList.map((item, index) =>
+          <AlbumCard key={index} albumTitle={item.name} year={item.year} number={index} id={item.id} tracks={item.tracks}
+          />
+        )) : <button className='homepage-add-album' /*caso nao tiver nenhum album adicionado mostra o modal de adicionar album*/
           onClick={() => {
-            async function reqAlbums() {
-              const req = await requestAlbumsTracks(input);
-              setAlbumsList(req.data);
-            }
-            reqAlbums();
-          }}>
-          Procurar
-        </button>
-
-
-        {/* Album card */}
-        {albumsList.map((item, index) =>
-          <AlbumCard key={index} albumTitle={item.name} year={item.year} number={index} id={item.id} tracks={item.tracks}/>
-        )
+            setModalAlbumOpen(true)
+          }}
+        >adicionar album</button>
         }
 
       </div>
