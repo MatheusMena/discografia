@@ -22,9 +22,13 @@ Veja abaixo uma demonstração do projeto em ação:
 ## Funcionamento
 
 * Adicionando um novo álbum:
+    ![GIF Demonstrativo](/public/addAlbum.gif)
 * Adicionando uma nova faixa em um álbum
+    ![GIF Demonstrativo](/public/addTrack.gif)
 * Excluir uma faixa
+    ![GIF Demonstrativo](/public/delTrack.gif)
 * Excluir um álbum
+    ![GIF Demonstrativo](/public/delAlbum.gif)
 
 
 
